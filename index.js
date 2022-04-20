@@ -34,7 +34,7 @@ function fizz_buzz(number) {
 
 function test_given() {
     // Ensuring that given tests are correct
-    let tests = {
+    const tests = {
         21: "FizzBang",
         33: "Bong",
         65: "FezzBuzz",
@@ -45,16 +45,28 @@ function test_given() {
 
     console.log("\n-----");
     for (let test_number in tests) {
-        let expected = tests[test_number];
-        let actual = fizz_buzz(test_number);
+        const expected = tests[test_number];
+        const actual = fizz_buzz(test_number);
         console.assert(expected === actual, "fizz_buzz(" + test_number + "), expected " + expected + ", got " + actual);
     }
     console.log("All tests complete.\n-----");
 }
 
-// Main program
-for (let counter = 1; counter <= 300; counter++) {
-    console.log(fizz_buzz(counter));
-}
+const readline = require("readline").createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
-test_given();
+// Main program
+readline.question("Enter a maximum number: ", user_maximum => {
+    const maximum = parseInt(user_maximum, 10);
+    if (maximum > 0) { // gets rid of NaNs too
+        for (let counter = 1; counter <= maximum; counter++) {
+            console.log(fizz_buzz(counter));
+        }
+    } else {
+        console.log("Not a valid integer.");
+    }
+
+    readline.close();
+});
